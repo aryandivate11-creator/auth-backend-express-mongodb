@@ -23,14 +23,14 @@ export const getTodos = async (req,res) =>{
 
         const skip = (page - 1) * limit ;
 
+        const query = {
+            user : req.user.id,
+            title :{ $regex:search ,$options : "i"}
+        };
+
         const todos = await Todo.find(query)
         .skip(skip)
         .limit(limit);
-
-        const query = {
-            user : req.user.id,
-            title :{$regex:search,$options : "i"}
-        };
 
         const totalTodos = await Todo.countDocuments(query);
 
